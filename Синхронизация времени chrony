@@ -1,0 +1,76 @@
+В конфиге сервера - адрес сервера времени в нужной сети.
+В конфиге клиента - адрес сервера АСУТП, АСУЭ, АСПС.
+Для клиента:
+Устанавливаешь компонент (если его нет) sudo apt install chrony
+Готовый конфиг кидаешь в папку /etc/chrony/
+Полный путь /etc/chrony/chrony.conf
+
+Перезапускаешь службу sudo systemctl restart chronyd.service
+
+# Welcome to the chrony configuration file. See chrony.conf(5) for more
+# information about usuable directives.
+
+# This directive specify the location of the file containing ID/key pairs for
+# NTP authentication.
+keyfile /etc/chrony/chrony.keys
+
+# This directive specify the file into which chronyd will store the rate
+# information.
+driftfile /var/lib/chrony/chrony.drift
+
+# Uncomment the following line to turn logging on.
+#log tracking measurements statistics
+
+# Log files location.
+logdir /var/log/chrony
+
+# Stop bad estimates upsetting machine clock.
+maxupdateskew 100.0
+
+# This directive enables kernel synchronisation (every 11 minutes) of the
+# real-time clock. Note that it can’t be used along with the 'rtcfile' directive.
+rtcsync
+
+# Step the system clock instead of slewing it if the adjustment is larger than
+# one second, but only in the first three clock updates.
+makestep 0.1 -1
+
+local stratum 8
+
+# Основной сервер
+server 192.168.0.44 minpoll 2 maxpoll 4 iburst 
+
+Для сервера:
+# Welcome to the chrony configuration file. See chrony.conf(5) for more
+# information about usuable directives.
+
+# This directive specify the location of the file containing ID/key pairs for
+# NTP authentication.
+keyfile /etc/chrony/chrony.keys
+
+# This directive specify the file into which chronyd will store the rate
+# information.
+driftfile /var/lib/chrony/chrony.drift
+
+# Uncomment the following line to turn logging on.
+#log tracking measurements statistics
+
+# Log files location.
+logdir /var/log/chrony
+
+# Stop bad estimates upsetting machine clock.
+maxupdateskew 100.0
+
+# This directive enables kernel synchronisation (every 11 minutes) of the
+# real-time clock. Note that it can’t be used along with the 'rtcfile' directive.
+rtcsync
+
+# Step the system clock instead of slewing it if the adjustment is larger than
+# one second, but only in the first three clock updates.
+makestep 0.1 -1
+
+allow all
+
+local stratum 8
+# Сервер времени
+#server <ip сервера времени> minpoll 2 maxpoll 4 iburst 
